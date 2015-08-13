@@ -1,40 +1,26 @@
 from app import db, app
 import config
 
-class User(object):
-    def __init__(self, user_name, user_id):
-        """
-        """
-        self.user_name = user_name
-        self.user_id = user_id
-
-class Movie(object):
-    def __init__(self, movie_name, movie_id):
-
-        self.movie_name = movie_name
-        self.movie_id = movie_id
-        
-class C2CResult(object):
-    def __init__(self, movie_name, score):
-        self.movie_name = movie_name
-        self.score = score
-        pass
-
-class BaseHelper(object):
-
+class Base(object):
+    
     @classmethod
     def remove_id(cls, docs):
         if type(docs) == list:
             for doc in docs:
                 del doc["_id"]
-            pass
+            
         if type(docs) == dict:
             del docs["_id"]
 
         return docs
-        
-class UsersHelper(BaseHelper):
+
+
+class User(Base):
     users = db[config.COL_USERS]
+    
+    def __init__(self, user_name, user_id):
+        self.user_name = user_name
+        self.user_id = user_id
 
     @classmethod
     def get_users(cls, limit=30):
@@ -46,8 +32,12 @@ class UsersHelper(BaseHelper):
         user = cls.users.find_one({"user_name": user_name})
         return cls.remove_id(user)
 
-class MoviesHelper(BaseHelper):
+class Movie(Base):
     movies = db[config.COL_MOVIES]
+
+    def __init__(self, movie_name, movie_id):
+        self.movie_name = movie_name
+        self.movie_id = movie_id
     
     @classmethod
     def get_movies(cls, limit=30):
@@ -58,14 +48,17 @@ class MoviesHelper(BaseHelper):
     def get_movie(cls, movie_name):
         movie = cls.movies.find_one({"movie_name": movie_name})
         return cls.remove_id(movie)
-
-class C2CResultsHelper(BaseHelper):
+        
+class C2CResults(Base):
     c2c_results = db[config.COL_C2C_RESULTS]
+    
+    def __init__(self, movie_name, score):
+        self.movie_name = movie_name
+        self.score = score
     
     @classmethod
     def get_c2c_results(cls, movie):
         c2c_result = cls.c2c_results.find_one({"movie": movie})
         recommendations = c2c_result["recommendations"]
         return recommendations
-
         
