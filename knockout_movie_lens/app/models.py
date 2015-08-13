@@ -24,6 +24,10 @@ class User(Base):
 
     @classmethod
     def get_users(cls, limit=30):
+        if limit is None:
+            limit = 30
+        else:
+            limit = int(limit)
         users = [user for user in cls.users.find(limit=limit)]
         return cls.remove_id(users)
 
@@ -41,6 +45,10 @@ class Movie(Base):
     
     @classmethod
     def get_movies(cls, limit=30):
+        if limit is None:
+            limit = 30
+        else:
+            limit = int(limit)
         movies = [movie for movie in cls.movies.find(limit=limit)]
         return cls.remove_id(movies)
 
@@ -57,8 +65,15 @@ class C2CResults(Base):
         self.score = score
     
     @classmethod
-    def get_c2c_results(cls, movie):
+    def get_c2c_results(cls, movie, limit=30):
+        print limit
         c2c_result = cls.c2c_results.find_one({"movie": movie})
-        recommendations = c2c_result["recommendations"]
+        if limit is None:
+            limit = 30
+        else:
+            limit = int(limit)
+
+        recommendations = c2c_result["recommendations"][0:limit]
+
         return recommendations
         

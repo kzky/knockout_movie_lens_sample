@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, make_response
+from flask import Blueprint, render_template, make_response, request
 from flask.json import jsonify
 import json
 
@@ -16,7 +16,8 @@ def test():
 
 @movie_lens.route("/users")
 def users():
-    users_ = User.get_users()
+    limit = request.args.get("limit")
+    users_ = User.get_users(limit)
     users = json.dumps(users_)
     return make_response(users)
 
@@ -28,7 +29,8 @@ def user(user):
 
 @movie_lens.route("/movies")
 def movies():
-    movies_ = Movie.get_movies()
+    limit = request.args.get("limit")
+    movies_ = Movie.get_movies(limit)
     movies = json.dumps(movies_)
     return make_response(movies)
 
@@ -39,7 +41,8 @@ def movie(movie):
 
 @movie_lens.route("/c2c_results/<int:movie>")
 def c2c_results(movie):
-    movies_ = C2CResults.get_c2c_results(movie)
+    limit = request.args.get("limit")
+    movies_ = C2CResults.get_c2c_results(movie, limit)
     movies = json.dumps(movies_)
     return make_response(movies)
 
