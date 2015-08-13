@@ -2,7 +2,6 @@
 knockout x flask x movie_lens data sample, to show c2c and u2c.
 
 ## Directory Schema and Files
-
 - batch
   - create_recommendation\_result.py: creates db and collections
   - dataset
