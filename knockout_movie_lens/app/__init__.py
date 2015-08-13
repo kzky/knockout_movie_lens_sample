@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import config
 
 # App
-app = Flask(config.APP_NAME)
+app = Flask(config.APP_NAME, static_folder='static')
 
 # Config
 app.config.from_object('config')
@@ -19,8 +19,10 @@ def not_found(error):
 
 # Import a module / component using its blueprint handler variable (mod_auth)
 from app.controllers import movie_lens as movie_lens
+from app.controllers import webpage as webpage
 
 # Register blueprint(s)
 app.register_blueprint(movie_lens)
+app.register_blueprint(webpage)
 
 

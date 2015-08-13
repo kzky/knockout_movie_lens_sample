@@ -5,7 +5,10 @@ import json
 from app import app
 from app.models import User, Movie, C2CResults
 
-movie_lens = Blueprint('movie_lens', __name__, url_prefix='/movie_lens')
+movie_lens = Blueprint('movie_lens', __name__, url_prefix='/api/movie_lens')
+webpage = Blueprint('webpage', __name__,
+                    static_folder='static',
+                    url_prefix='/web/movie_lens')
 
 @movie_lens.route("/test")
 def test():
@@ -46,3 +49,7 @@ def c2c_results(movie):
     movies = json.dumps(movies_)
     return make_response(movies)
 
+@webpage.route("/top/<string:filename>")
+def top(filename):
+    return webpage.send_static_file(filename)
+    #return app.send_static_file("index.html")    
