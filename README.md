@@ -40,6 +40,7 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
       - Get ratings.data inside the zip file.
 
    2. Run Batch Job
+   
     To run the batch script create_recommendation\_result.py, you first retrieve first 3 columns from the ratings.dat.
 
     ```sh
@@ -52,6 +53,7 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
     ```
 
 3. Run Flask App
+
     You can find configuration file (config.py) where hosts and ports are set as default in flask app and mongodb and change at your disposal.
 
     Go to the directory where run.py is located and execute run.py
