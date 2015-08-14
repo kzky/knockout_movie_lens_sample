@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from scipy.sparse import coo_matrix
 import csv
+import time
+from collections import defaultdict
 from pymongo import MongoClient
 import numpy as np
 
@@ -17,7 +19,6 @@ def init_db():
 def create_index(
         filepath):
         
-    # indexing
     user_set = set()
     movie_set = set()
     
@@ -26,7 +27,8 @@ def create_index(
         for r in reader:
             user_set.add(int(r[0]))
             movie_set.add(int(r[1]))
-            
+
+    # indexing
     user_index = dict()
     for i, user in enumerate(user_set):
         user_index[user] = i
@@ -39,14 +41,32 @@ def create_index(
 
     return user_index, movie_index
 
-def create_user_collection(db, user_index):
+def create_user_movies(filepath):
+    st = time.time()
+    user_movies = defaultdict(list)
+    with open(filepath) as fpin:
+        reader = csv.reader(fpin, delimiter=",")
+        for r in reader:
+            movie = int(r[1])
+            user_movies[int(r[0])].append(movie)
+
+    et = time.time()
+    print "create_user_movies: elapsed time: {}".format(et - st)
+    return user_movies
+
+def create_user_collection(db, user_index, user_movies):
+    st = time.time()
+    
     users = db.users
     bulk = users.initialize_unordered_bulk_op()
+
     for name, index in user_index.items():
+        movies = user_movies[name]
         bulk.insert(
             {
                 "user_name": name,
-                "user_id": index
+                "user_id": index,
+                "movie_names": movies
             }
         )
         
@@ -54,6 +74,9 @@ def create_user_collection(db, user_index):
         bulk.execute()
     except Exception:
         pass
+    et = time.time()
+
+    print "create_user_collection: elapsed time {}".format(et - st)
     
 def create_movie_collection(db, movie_index):
     movies = db.movies
@@ -89,11 +112,11 @@ def compute_c2c_results(coo_mat):
     return coo_mat.transpose().dot(coo_mat)
 
 def create_c2c_collection(db, movie_index, c2c_results, upto=100):
+    st = time.time()
     inv_movie_index = {v: k for k, v in movie_index.items()}
     c2c_results_col = db.c2c_results
     bulk = c2c_results_col.initialize_unordered_bulk_op()
     
-    # very slow code
     for i in xrange(c2c_results.shape[0]):
         movie = inv_movie_index[i]
         results = c2c_results.getrow(i)
@@ -124,7 +147,6 @@ def create_c2c_collection(db, movie_index, c2c_results, upto=100):
                 bulk = c2c_results_col.initialize_unordered_bulk_op()
             except Exception as e:
                 print e
-                pass
         
         pass
     try:
@@ -133,16 +155,20 @@ def create_c2c_collection(db, movie_index, c2c_results, upto=100):
     except Exception as e:
         print e
         pass
-    pass
+
+    et = time.time()
+    print "create_c2c_collection: elapsed time {}".format(et - st)
 
 def main():
     db = init_db()
     filepath = "./dataset/ratings_3cols.dat"
 
     user_index, movie_index = create_index(filepath)
-    create_user_collection(db, user_index)
-    create_movie_collection(db, movie_index)
+    user_movies = create_user_movies(filepath)
     
+    create_user_collection(db, user_index, user_movies)
+    create_movie_collection(db, movie_index)
+
     coo_mat = create_coo_matrix(filepath, user_index, movie_index)
     c2c_results = compute_c2c_results(coo_mat)
 

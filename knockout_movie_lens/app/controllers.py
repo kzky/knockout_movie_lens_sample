@@ -26,9 +26,9 @@ def users():
 
 @movie_lens.route("/users/<int:user>")
 def user(user):
-    user = User.get_user(user)
-    app.logger.debug(user)
-    return jsonify(user)
+    user_ = User.get_user(user)
+    user = json.dumps(user_)
+    return make_response(user)
 
 @movie_lens.route("/movies")
 def movies():
@@ -49,7 +49,6 @@ def c2c_results(movie):
     movies = json.dumps(movies_)
     return make_response(movies)
 
-@webpage.route("/top/<string:filename>")
+@webpage.route("/<path:filename>")
 def top(filename):
     return webpage.send_static_file(filename)
-    #return app.send_static_file("index.html")    

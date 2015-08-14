@@ -14,7 +14,6 @@ class Base(object):
 
         return docs
 
-
 class User(Base):
     users = db[config.COL_USERS]
     
@@ -33,8 +32,14 @@ class User(Base):
 
     @classmethod
     def get_user(cls, user_name):
-        user = cls.users.find_one({"user_name": user_name})
-        return cls.remove_id(user)
+        movie_names_ = cls.users.find_one({"user_name": user_name},
+                                          {"movie_names": 1, "_id": 0})["movie_names"]
+        movie_names = []
+        for movie_name in movie_names_:
+            movie_names.append(
+                {"movie_name": movie_name}
+            )
+        return movie_names
 
 class Movie(Base):
     movies = db[config.COL_MOVIES]
