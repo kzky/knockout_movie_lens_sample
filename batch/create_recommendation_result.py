@@ -5,6 +5,7 @@ import time
 from collections import defaultdict
 from pymongo import MongoClient
 import numpy as np
+import sys
 
 # mongo cilent
 def init_db():
@@ -160,9 +161,12 @@ def create_c2c_collection(db, movie_index, c2c_results, upto=100):
     print "create_c2c_collection: elapsed time {}".format(et - st)
 
 def main():
+    if len(sys.argv) < 2:
+        filepath = "./dataset/ratings_3cols.dat"
+    else:
+        filepath = sys.argv[1]
     db = init_db()
-    filepath = "./dataset/ratings_3cols.dat"
-
+    
     user_index, movie_index = create_index(filepath)
     user_movies = create_user_movies(filepath)
     
