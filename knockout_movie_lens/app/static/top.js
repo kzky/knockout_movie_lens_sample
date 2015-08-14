@@ -6,6 +6,7 @@ ko.observableArray.fn.pushAll = function(valuesToPush) {
     return this;
 }
 
+// Not to be used here.
 function User(user_name) {
     var self = this
     self.user_name = user_name
@@ -22,6 +23,7 @@ function C2CResult(movie, score) {
     self.score = score
 }
 
+// ViewModel
 function RecommendationViewModel() {
     var self = this
 
