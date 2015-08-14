@@ -53,6 +53,7 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
        $ python create_recommendation_result.py ${pathto}/ratings_3cols.dat
         ```
 
+
 3. Run Flask App
 
     You can find configuration file (config.py) where hosts and ports are set as default in flask app and mongodb and change at your disposal.
@@ -63,11 +64,3 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
     ```
 
     Access to http://localhost:8080/web/movie_lens/top.html through your browser.
-
-
-
-    
-        
-    
-
-
