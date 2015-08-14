@@ -32,7 +32,7 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
     python install -r requements.txt
     ```
 
-2. Create Database
+1. Create Database
 
     1. Get MoveiLens Dataset
       - Download movielens dataset [here](http://grouplens.org/datasets/movielens )
@@ -40,7 +40,7 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
       - [ml-latest.zip](http://files.grouplens.org/datasets/movielens/ml-latest.zip) inclues ratings.dat.
       - Get ratings.data inside the zip file.
 
-   2. Run Batch Job
+    1. Run Batch Job
    
        To run the batch script create_recommendation\_result.py, you first retrieve first 3 columns from the ratings.dat.
 
@@ -54,8 +54,7 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
        $ python create_recommendation_result.py ${pathto}/ratings_3cols.dat
         ```
 
-
-3. Run Flask App
+1. Run Flask App
 
     You can find configuration file (config.py) where hosts and ports are set as default in flask app and mongodb and change at your disposal.
 
