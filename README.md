@@ -31,7 +31,6 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
     ```sh
     python install -r requements.txt
     ```
-
 2. Create Database
     1. Get MoveiLens Dataset
       - Download movielens dataset [here](http://grouplens.org/datasets/movielens )
@@ -51,7 +50,6 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
        ```sh
        $ python create_recommendation_result.py ${pathto}/ratings_3cols.dat
         ```
-
 3. Run Flask App
     You can find configuration file (config.py) where hosts and ports are set as default in flask app and mongodb and change at your disposal.
 
