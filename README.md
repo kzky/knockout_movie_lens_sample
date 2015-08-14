@@ -41,16 +41,17 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
 
    2. Run Batch Job
    
-    To run the batch script create_recommendation\_result.py, you first retrieve first 3 columns from the ratings.dat.
+       To run the batch script create_recommendation\_result.py, you first retrieve first 3 columns from the ratings.dat.
 
-    ```sh
-    $ gawk -F "::" '{print $1","$2","$3}' ratings.dat > ratings_3cols.dat
-    ```
-
-    Run the batch script, which took a few 10 mins with 10,000,054 records.
-    ```sh
-    $ python create_recommendation_result.py ${pathto}/ratings_3cols.dat
-    ```
+       ```sh
+       $ gawk -F "::" '{print $1","$2","$3}' ratings.dat > ratings_3cols.dat
+       ```
+     
+       Run the batch script, which took a few 10 mins with 10,000,054 records.
+       
+       ```sh
+       $ python create_recommendation_result.py ${pathto}/ratings_3cols.dat
+        ```
 
 3. Run Flask App
 
