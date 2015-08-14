@@ -33,7 +33,8 @@ knockout x flask x movie_lens data sample, to show c2c and u2c.
     ```
 
 2. Create Database
-   1. Get MoveiLens Dataset
+
+    1. Get MoveiLens Dataset
       - Download movielens dataset [here](http://grouplens.org/datasets/movielens )
       - Any dataset are acceptable if it includes ratings.data
       - [ml-latest.zip](http://files.grouplens.org/datasets/movielens/ml-latest.zip) inclues ratings.dat.
